@@ -87,3 +87,10 @@ print(get_account_balance("5DvyRvNq5jpvjat2qkGhiKjJQdz5cwreJW5yxvLBLRpHnoGo"))
 # print(get_account_transfers("5DvyRvNq5jpvjat2qkGhiKjJQdz5cwreJW5yxvLBLRpHnoGo"))
 # print(get_transfer_details("6245445-2"))
 # send_balance("5Fe4G8vypjGHPkwwBSF1nbnyX6ZKTMMNVQDhaZJ1u6tafcpF", 0.01)
+
+contract_address = "5DYXHYiH5jPj8orDw5HSFJhmATe8NtmbguG3vs53v8RgSHTW"
+
+# Check if contract is on chain
+contract_info = substrate_contract.query("Contracts", "ContractInfoOf",
+                                         [contract_address])
+print(contract_info.value)
