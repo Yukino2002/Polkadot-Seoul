@@ -1,4 +1,5 @@
 from substrateinterface import SubstrateInterface, Keypair
+from substrateinterface.contracts import ContractCode, ContractInstance
 from substrateinterface.exceptions import SubstrateRequestException
 from dotenv import load_dotenv
 import os
@@ -7,7 +8,7 @@ import requests
 load_dotenv()
 
 base_url = "https://rococo.api.subscan.io"
-substrate_relay = SubstrateInterface(url="wss://rococo-rpc.polkadot.io")
+substrate_relay = SubstrateInterface(url="wss://shibuya-rpc.dwellir.com")
 substrate_contract = SubstrateInterface(
     url='wss://rococo-contracts-rpc.polkadot.io')
 api_key = os.getenv("API_KEY")
@@ -30,9 +31,7 @@ def get_account_transfers(account_address):
 
 
 def get_account_balance(account_address):
-    result = substrate_relay.query(
-        "System", "Account",
-        ["5DvyRvNq5jpvjat2qkGhiKjJQdz5cwreJW5yxvLBLRpHnoGo"])
+    result = substrate_relay.query("System", "Account", [account_address])
     balance = (result.value["data"]["free"] + result.value["data"]["reserved"])
 
     return format_balance(balance)
@@ -84,13 +83,37 @@ def send_balance(recipient_address, amount):
 
 
 print(get_account_balance("5DvyRvNq5jpvjat2qkGhiKjJQdz5cwreJW5yxvLBLRpHnoGo"))
+print(get_account_balance("5Fe4G8vypjGHPkwwBSF1nbnyX6ZKTMMNVQDhaZJ1u6tafcpF"))
 # print(get_account_transfers("5DvyRvNq5jpvjat2qkGhiKjJQdz5cwreJW5yxvLBLRpHnoGo"))
 # print(get_transfer_details("6245445-2"))
 # send_balance("5Fe4G8vypjGHPkwwBSF1nbnyX6ZKTMMNVQDhaZJ1u6tafcpF", 0.01)
 
-contract_address = "5DYXHYiH5jPj8orDw5HSFJhmATe8NtmbguG3vs53v8RgSHTW"
+# contract_address = "5DYXHYiH5jPj8orDw5HSFJhmATe8NtmbguG3vs53v8RgSHTW"
 
-# Check if contract is on chain
-contract_info = substrate_contract.query("Contracts", "ContractInfoOf",
-                                         [contract_address])
-print(contract_info.value)
+# # Check if contract is on chain
+# contract_info = substrate_contract.query("Contracts", "ContractInfoOf",
+#                                          [contract_address])
+# print(contract_info.value)
+
+# Upload WASM code
+code = ContractCode.create_from_contract_files(
+    metadata_file=os.path.join(os.path.dirname(__file__), 'assets',
+                               'my_contract.json'),
+    wasm_file=os.path.join(os.path.dirname(__file__), 'assets',
+                           'my_contract.wasm'),
+    substrate=substrate_relay)
+
+# Deploy contract
+print('Deploy contract...')
+contract = code.deploy(keypair=Keypair.create_from_mnemonic(
+    os.getenv("MNEMONIC")),
+                       constructor="new",
+                       args={'init_value': True},
+                       value=0,
+                       gas_limit={
+                           'ref_time': 2599000,
+                           'proof_size': 119903836479
+                       },
+                       upload_code=True)
+
+print(f'✅ Deployed @ {contract.contract_address}')
