@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+substrate-interface
+dotenv
+beautifulsoup4
