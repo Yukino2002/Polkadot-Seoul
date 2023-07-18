@@ -45,4 +45,4 @@ def scrape_page(url, output_file):
 
 
 # Start scraping from the given URL and save the content in a single file
-scrape_page('https://polkadot.network/development/docs/', 'output_text.txt')
+scrape_page('https://polkadot.network/development/docs/', 'polkadocs.txt')
