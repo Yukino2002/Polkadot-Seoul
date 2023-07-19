@@ -4,3 +4,4 @@ substrate-interface
 dotenv
 beautifulsoup4
 openai
+firebase-admin
