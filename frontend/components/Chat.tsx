@@ -9,37 +9,36 @@ import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 
 type Props = {
-  chatId: string;
+  chatId: string,
+  setReload: any,
+  reload: any
 }
 
-const Chat = ({ chatId }: Props) => {
+const Chat = ({ chatId, reload, setReload }: Props) => {
   const { data: session } = useSession();
   const [messagesData, setMessagesData] = useState<any[]>([])
+  // let messagesData: any = []
   const messagesPath = `users/${session?.user?.email}/chats/${chatId}/messages`;
 
-  // Fetch the documents and instantiate the messages array
-  const fetchMessages = async () => {
-    try {
-      const messagesCollection = collection(db, messagesPath)
-      const querySnapshot = await getDocs(messagesCollection)
-      const messages = querySnapshot.docs.map((doc) => doc.data())
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const messagesCollection = collection(db, messagesPath);
+        const querySnapshot = await getDocs(messagesCollection);
+        let messages = querySnapshot.docs.map((doc) => doc.data());
 
-      // console.log("Messages:", messages[0].text, messages[0].createdAt)
+        messages.sort((a, b) => {
+          return a.message.createdAt.seconds - b.message.createdAt.seconds
+        })
 
-      return messages
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-      return [];
-    }
-  }
+        setMessagesData(messages);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    };
 
-  fetchMessages().then((messages) => {
-    // messages.sort((a, b) => {
-    //   return a.message.createdAt.seconds - b.message.createdAt.seconds
-    // })
-    setMessagesData(messages)
-  })
-
+    fetchMessages();
+  }, [messagesPath, reload])
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
       {messagesData.length === 0 && (

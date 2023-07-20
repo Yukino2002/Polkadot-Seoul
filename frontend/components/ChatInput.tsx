@@ -8,9 +8,11 @@ import { FormEvent, useState } from "react";
 import toast from "react-hot-toast";
 
 type Props = {
-  chatId: string;
+  chatId: string,
+  setReload: any,
+  reload: any
 }
-const ChatInput = ({ chatId }: Props) => {
+const ChatInput = ({ chatId, setReload, reload }: Props) => {
   const [prompt, setPrompt] = useState("");
   const { data: session } = useSession();
 
@@ -34,6 +36,8 @@ const ChatInput = ({ chatId }: Props) => {
       message
     });
 
+    setReload((prevReload: any) => !prevReload)
+
     const notification = toast.loading("Sybil is thinking...")
 
     await fetch('/api/askQuestion', {
@@ -50,6 +54,7 @@ const ChatInput = ({ chatId }: Props) => {
       toast.success('Sybil responded', {
         id: notification,
       })
+      setReload((prevReload: any) => !prevReload)
     })
 
   };

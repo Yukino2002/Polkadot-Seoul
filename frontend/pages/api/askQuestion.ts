@@ -72,17 +72,9 @@ export default async function handler(
     //     },
     // };
 
-    // await adminDb
-    //     .collection('users')
-    //     .doc(session?.user?.email)
-    //     .collection('chats')
-    //     .doc(chatId)
-    //     .collection('messages')
-    //     .add(message)
-
 
 
     // res.status(200).json({ answer: message.text })
-    res.status(200).json({ answer: "Hello" })
+    res.status(200).json(data)
 }
 

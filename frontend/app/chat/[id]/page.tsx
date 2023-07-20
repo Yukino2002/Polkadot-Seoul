@@ -1,5 +1,6 @@
-import Chat from '@/components/Chat'
-import ChatInput from '@/components/ChatInput'
+'use client'
+
+import ChatParent from '@/components/ChatParent'
 
 type Props = {
   params: {
@@ -9,10 +10,7 @@ type Props = {
 
 const ChatPage = ({ params: { id } }: Props) => {
   return (
-    <div className='flex flex-col h-screen overflow-hidden'>
-      <ChatInput chatId={id} />
-      <Chat chatId={id} />
-    </div>
+    <ChatParent id={id} />
   )
 }
 
