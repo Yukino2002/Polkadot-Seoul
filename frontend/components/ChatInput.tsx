@@ -30,7 +30,6 @@ const ChatInput = ({ chatId }: Props) => {
       }
     }
 
-    // generate random id for message
     await setDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', Math.random().toString(36).substring(7)), {
       message
     });
@@ -41,8 +40,8 @@ const ChatInput = ({ chatId }: Props) => {
       method: 'POST',
       headers: {
         'Content-Type': 'applications/json',
-        'Mnemonic': 'b2a2b0c0-0b0a-4c0b-9b0a-0b0a0b0a0b0a',
-        'Open-AI-Key': '',
+        'Mnemonic': 'mnemonic',
+        'Openai': 'fLXyttwdRNASlEr0SCAJT3BlbkFJCgiV1XTo2ivixng0vzRf',
       },
       body: JSON.stringify({
         prompt: input, chatId, session

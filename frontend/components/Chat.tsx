@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import Message from "./Message";
 import { ArrowUpCircleIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   chatId: string;
@@ -20,18 +20,25 @@ const Chat = ({ chatId }: Props) => {
   // Fetch the documents and instantiate the messages array
   const fetchMessages = async () => {
     try {
-      const messagesCollection = collection(db, messagesPath);
-      const querySnapshot = await getDocs(messagesCollection);
-      const messages = querySnapshot.docs.map((doc) => doc.data());
+      const messagesCollection = collection(db, messagesPath)
+      const querySnapshot = await getDocs(messagesCollection)
+      const messages = querySnapshot.docs.map((doc) => doc.data())
 
-      return messages;
+      // console.log("Messages:", messages[0].text, messages[0].createdAt)
+
+      return messages
     } catch (error) {
       console.error("Error fetching messages:", error);
       return [];
     }
-  };
+  }
 
-  fetchMessages().then((messages) => setMessagesData(messages));
+  fetchMessages().then((messages) => {
+    // messages.sort((a, b) => {
+    //   return a.message.createdAt.seconds - b.message.createdAt.seconds
+    // })
+    setMessagesData(messages)
+  })
 
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden">

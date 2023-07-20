@@ -33,21 +33,30 @@ async def root():
     return {"message": users_data}
 
 
-class Message(BaseModel):
-    message: str
+# class Session(BaseModel):
+
+
+class Data(BaseModel):
+    prompt: str
+    chatId: str
+    user: object
 
 
 @app.post("/openai")
-async def openai_endpoint(message: Message,
-                          open_ai_key: Annotated[str | None,
-                                                 Header()] = None):
+async def openai_endpoint(data: Data,
+                          openaikey: Annotated[str | None,
+                                               Header()] = None,
+                          mnemonic: Annotated[str | None, Header()] = None):
 
-    openai.api_key = "sk-" + open_ai_key
+    # print(data, openai, mnemonic)
+    # print(data.prompt, data.chatId, data.user)
+
+    openai.api_key = "sk-" + openaikey
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{
             "role": "user",
-            "content": message.message
+            "content": data.prompt
         }],
         max_tokens=100,
     )

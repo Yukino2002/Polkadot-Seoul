@@ -2,6 +2,8 @@ import { adminDb } from "@/firebaseAdmin";
 import query from "@/lib/queryApi";
 import admin from "firebase-admin"
 import cors from 'cors'
+import { db } from "@/firebase";
+import { setDoc, addDoc, doc, serverTimestamp } from "firebase/firestore";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {
@@ -12,30 +14,53 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<Data>,
 ) {
-    const { prompt, chatId, session } = req.body;
+    const { prompt, chatId, session } = JSON.parse(req.body)
 
-    // get the headers
-    const headers = req.headers;
+    const mnemonic = req.headers.mnemonic
+    const openai = req.headers.openai
 
-    // console.log(headers)
+    if (!prompt) {
+        res.status(400).json({ answer: "Please provide prompt" })
+        return;
+    }
 
-    // if (!prompt) {
-    //     res.status(400).json({ answer: "Please provide prompt" })
-    //     return;
-    // }
+    if (!chatId) {
+        res.status(400).json({ answer: "Please provide Chat ID" })
+        return;
+    }
 
-    // if (!chatId) {
-    //     res.status(400).json({ answer: "Please provide Chat ID" })
-    //     return;
-    // }
+    const headers: any = {
+        'Content-Type': 'application/json',
+        Openaikey: openai,
+        Mnemonic: mnemonic
+    }
 
-    // ping local server
+    const body = {
+        prompt,
+        chatId,
+        user: session.user
+    }
 
-    const r = await fetch("http://localhost:8001")
-    const model = await r.json()
-    console.log('hi', model)
+    const response = await fetch("http://localhost:8001/openai", {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body)
+    })
 
-    // const response = await query(prompt, chatId, model)
+    const data = await response.json()
+    console.log(data)
+
+    const message = {
+        text: data.response,
+        createdAt: serverTimestamp(),
+        user: session.user
+    }
+
+    // update firebase
+
+    await setDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', Math.random().toString(36).substring(7)), {
+        message
+    });
 
     // const message: Message = {
     //     text: response || "Sybil could not find the answer for that",
