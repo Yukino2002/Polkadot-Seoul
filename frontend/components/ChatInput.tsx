@@ -41,7 +41,7 @@ const ChatInput = ({ chatId }: Props) => {
       headers: {
         'Content-Type': 'applications/json',
         'Mnemonic': 'mnemonic',
-        'Openai': 'fLXyttwdRNASlEr0SCAJT3BlbkFJCgiV1XTo2ivixng0vzRf',
+        'Openai': '',
       },
       body: JSON.stringify({
         prompt: input, chatId, session
