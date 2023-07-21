@@ -39,13 +39,17 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
     setReload((prevReload: any) => !prevReload)
 
     const notification = toast.loading("Sybil is thinking...")
+    let openAIKey = localStorage.getItem('openAIKey') || '';
+    console.log('openAIKey after getting from localStorage:', openAIKey); // new debug line
+
+    openAIKey = openAIKey.startsWith('sk-') ? openAIKey.substring(3) : openAIKey;
 
     await fetch('/api/askQuestion', {
       method: 'POST',
       headers: {
         'Content-Type': 'applications/json',
         'Mnemonic': 'mnemonic',
-        'Openai': '',
+        'Openai': openAIKey, // use the key from local storage
       },
       body: JSON.stringify({
         prompt: input, chatId, session
@@ -56,8 +60,8 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
       })
       setReload((prevReload: any) => !prevReload)
     })
-
   };
+
   return (
     <div className=" text-gray-300 rounded-lg text-sm flex justify-center py-5">
       <form onSubmit={sendMessage} className="bg-black rounded-lg p-3 space-x-5 flex w-full max-w-xl">

@@ -48,6 +48,16 @@ const RightSidebar: FunctionComponent = () => {
     navigator.clipboard.writeText(userAddress);
   }
 
+  const handleMnemonicKeySubmit = (value: string) => {
+    console.log("Mnemonic Key: ", value);
+    localStorage.setItem('mnemonicKey', value); // store the key in local storage
+  }
+
+  const handleOpenAIKeySubmit = (value: string) => {
+    console.log("OpenAI API Key: ", value);
+    localStorage.setItem('openAIKey', value); // store the key in local storage
+  }
+
   return (
     <div className='text-white items-center p-2 flex flex-col h-screen'>
         <div className='flex-1'>
@@ -62,27 +72,21 @@ const RightSidebar: FunctionComponent = () => {
 
 
         <div className="flex justify-center items-center py-2 border-t border-gray-500">
-        {/* Mnemonic Key Input */}
-        <SidebarButton
+            {/* Mnemonic Key Input */}
+            <SidebarButton
             text="Input Mnemonic Key"
             icon={<KeyIcon className="h-5 w-5"/>}
-            onSubmit={(value) => {
-                console.log("Mnemonic Key: ", value);
-            }}
-        />
+            onSubmit={handleMnemonicKeySubmit} // use the new handler
+            />
         </div>
-
         <div className="flex justify-center items-center py-2  border-gray-500 ">
-        {/* OpenAI API Key Input */}
-        <SidebarButton
+            {/* OpenAI API Key Input */}
+            <SidebarButton
             text="Input OpenAI API Key"
             icon={<KeyIcon className="h-5 w-5"/>}
-            onSubmit={(value) => {
-                console.log("OpenAI API Key: ", value);
-            }}
-        />
+            onSubmit={handleOpenAIKeySubmit} // use the new handler
+            />
         </div>
-        
     </div>
   )
 }
