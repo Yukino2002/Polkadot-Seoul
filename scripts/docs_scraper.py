@@ -28,21 +28,25 @@ def scrape_page(url, output_file):
     # Append the content to the output file
     with open(output_file, 'a') as f:
         f.write(content)
-
-    # Find all the links on the page
-    links = soup.find_all('a')
-
-    # Recursively scrape the content of the links
-    for link in links:
-        href = link.get('href')
-        if not href or href.startswith('#'):
-            continue
-
-        if href.startswith('/'):
-            href = urljoin(url, href)
-
-        scrape_page(href, output_file)
+        f.write(
+            '\n')  # Add a new line to separate the content of different URLs
 
 
-# Start scraping from the given URL and save the content in a single file
-scrape_page('https://polkadot.network/development/docs/', 'polkadocs.txt')
+def scrape_pages_from_file(input_file, output_file):
+    with open(input_file, 'r') as urls_file:
+        urls = urls_file.readlines()
+
+    print(urls)
+
+    for url in urls:
+        url = url.strip()
+        scrape_page('https://wiki.polkadot.network' + url, output_file)
+        print(f'Scraped URL: {url} -> Appended to {output_file}')
+
+
+if __name__ == "__main__":
+    # Modify these paths accordingly
+    input_file_path = 'urls.txt'
+    output_file_path = 'polkadocs.txt'
+
+    scrape_pages_from_file(input_file_path, output_file_path)
