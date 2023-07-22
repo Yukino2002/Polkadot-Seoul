@@ -10,7 +10,10 @@ mod contract_name {
     impl Contract {
         #[ink(constructor)]
         pub fn new() -> Self {
-            Self { value1: 1, value2: 2 }
+            Self {
+                value1: 1,
+                value2: 2,
+            }
         }
 
         #[ink(message)]
