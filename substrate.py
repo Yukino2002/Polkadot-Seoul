@@ -132,12 +132,24 @@ contract = ContractInstance.create_from_address(
 
 print(contract)
 
+# call total_supply
 result = contract.read(Keypair.create_from_mnemonic(os.getenv("MNEMONIC")),
                        'total_supply')
 
-# print('Current value of "get":', result.contract_result_data)
+print(result)
+
+# get balance of an account
+result = contract.read(
+    Keypair.create_from_mnemonic(os.getenv("MNEMONIC")),
+    'balance_of',
+    args={'owner': '5CFj55X2XWR1x6DL5W6WUBFmYYB82r37mAw9ukYXsmGcYatd'})
 
 print(result)
+
+# call balance_of_impl
+# result = contract.read(Keypair.create_from_mnemonic(os.getenv("MNEMONIC")),
+#                           'balance_of_impl',
+#                           args={'owner': ''}
 
 # gas_predit_result = contract.read(
 #     Keypair.create_from_mnemonic(os.getenv("MNEMONIC")), 'flip')
