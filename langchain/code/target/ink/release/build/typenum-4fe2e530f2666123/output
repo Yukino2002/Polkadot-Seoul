@@ -1,0 +1,3 @@
+cargo:rerun-if-changed=build/main.rs
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=c:\Users\asimj\Documents\Polkadot-Seoul\langchain\code\target\ink\release\build\typenum-4fe2e530f2666123\out\consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=c:\Users\asimj\Documents\Polkadot-Seoul\langchain\code\target\ink\release\build\typenum-4fe2e530f2666123\out\op.rs

@@ -1,0 +1,161 @@
+TARGET = Some("x86_64-pc-windows-msvc")
+OPT_LEVEL = Some("0")
+HOST = Some("x86_64-pc-windows-msvc")
+cargo:rerun-if-env-changed=CC_x86_64-pc-windows-msvc
+CC_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=CC_x86_64_pc_windows_msvc
+CC_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_CC
+HOST_CC = None
+cargo:rerun-if-env-changed=CC
+CC = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+CFLAGS_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+CFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = Some("fxsr,sse,sse2")
+DEBUG = Some("true")
+cargo:rerun-if-env-changed=CC_x86_64-pc-windows-msvc
+CC_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=CC_x86_64_pc_windows_msvc
+CC_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_CC
+HOST_CC = None
+cargo:rerun-if-env-changed=CC
+CC = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64-pc-windows-msvc
+CFLAGS_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=CFLAGS_x86_64_pc_windows_msvc
+CFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_CFLAGS
+HOST_CFLAGS = None
+cargo:rerun-if-env-changed=CFLAGS
+CFLAGS = None
+cargo:rerun-if-env-changed=CRATE_CC_NO_DEFAULTS
+CRATE_CC_NO_DEFAULTS = None
+CARGO_CFG_TARGET_FEATURE = Some("fxsr,sse,sse2")
+running: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe" "-nologo" "-MD" "-Z7" "-Brepro" "-I" "depend/secp256k1/" "-I" "depend/secp256k1/include" "-I" "depend/secp256k1/src" "-W4" "-DSECP256K1_API=" "-DENABLE_MODULE_ECDH=1" "-DENABLE_MODULE_SCHNORRSIG=1" "-DENABLE_MODULE_EXTRAKEYS=1" "-DECMULT_GEN_PREC_BITS=4" "-DECMULT_WINDOW_SIZE=15" "-DUSE_EXTERNAL_DEFAULT_CALLBACKS=1" "-DENABLE_MODULE_RECOVERY=1" "-FoC:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\depend/secp256k1/contrib/lax_der_parsing.o" "-c" "depend/secp256k1/contrib/lax_der_parsing.c"
+lax_der_parsing.c
+exit code: 0
+running: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe" "-nologo" "-MD" "-Z7" "-Brepro" "-I" "depend/secp256k1/" "-I" "depend/secp256k1/include" "-I" "depend/secp256k1/src" "-W4" "-DSECP256K1_API=" "-DENABLE_MODULE_ECDH=1" "-DENABLE_MODULE_SCHNORRSIG=1" "-DENABLE_MODULE_EXTRAKEYS=1" "-DECMULT_GEN_PREC_BITS=4" "-DECMULT_WINDOW_SIZE=15" "-DUSE_EXTERNAL_DEFAULT_CALLBACKS=1" "-DENABLE_MODULE_RECOVERY=1" "-FoC:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\depend/secp256k1/src/precomputed_ecmult_gen.o" "-c" "depend/secp256k1/src/precomputed_ecmult_gen.c"
+precomputed_ecmult_gen.c
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(261): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(274): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(323): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(324): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(325): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+exit code: 0
+running: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe" "-nologo" "-MD" "-Z7" "-Brepro" "-I" "depend/secp256k1/" "-I" "depend/secp256k1/include" "-I" "depend/secp256k1/src" "-W4" "-DSECP256K1_API=" "-DENABLE_MODULE_ECDH=1" "-DENABLE_MODULE_SCHNORRSIG=1" "-DENABLE_MODULE_EXTRAKEYS=1" "-DECMULT_GEN_PREC_BITS=4" "-DECMULT_WINDOW_SIZE=15" "-DUSE_EXTERNAL_DEFAULT_CALLBACKS=1" "-DENABLE_MODULE_RECOVERY=1" "-FoC:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\depend/secp256k1/src/precomputed_ecmult.o" "-c" "depend/secp256k1/src/precomputed_ecmult.c"
+precomputed_ecmult.c
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(261): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(274): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(323): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(324): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(325): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+exit code: 0
+running: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\cl.exe" "-nologo" "-MD" "-Z7" "-Brepro" "-I" "depend/secp256k1/" "-I" "depend/secp256k1/include" "-I" "depend/secp256k1/src" "-W4" "-DSECP256K1_API=" "-DENABLE_MODULE_ECDH=1" "-DENABLE_MODULE_SCHNORRSIG=1" "-DENABLE_MODULE_EXTRAKEYS=1" "-DECMULT_GEN_PREC_BITS=4" "-DECMULT_WINDOW_SIZE=15" "-DUSE_EXTERNAL_DEFAULT_CALLBACKS=1" "-DENABLE_MODULE_RECOVERY=1" "-FoC:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\depend/secp256k1/src/secp256k1.o" "-c" "depend/secp256k1/src/secp256k1.c"
+secp256k1.c
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(261): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(274): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(323): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(324): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\util.h(325): warning C4244: '=': conversion from 'uint32_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(43): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(44): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(45): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(49): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(50): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(51): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(55): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(56): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(57): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(73): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\assumptions.h(74): warning C4310: cast truncates constant value
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modinv64_impl.h(185): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modinv64_impl.h(264): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modinv64_impl.h(265): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modinv64_impl.h(266): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modinv64_impl.h(276): warning C4244: '=': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modinv64_impl.h(286): warning C4244: '=': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modinv64_impl.h(287): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modinv64_impl.h(287): warning C4244: '=': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\field_5x52_impl.h(498): warning C4146: unary minus operator applied to unsigned type, result still unsigned
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(104): warning C4244: '=': conversion from 'uint64_t' to 'int', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(144): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(144): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(144): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(144): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(144): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(144): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(144): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(145): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(145): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(145): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(145): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(145): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(145): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(145): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(146): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(146): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(146): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(146): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(146): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(146): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(146): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(147): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(147): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(147): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(147): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(147): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(147): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(147): warning C4244: '=': conversion from 'const uint64_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(544): warning C4244: '=': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(564): warning C4244: '=': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\scalar_4x64_impl.h(584): warning C4244: 'function': conversion from 'uint64_t' to 'unsigned int', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecmult_impl.h(516): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecmult_impl.h(683): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\hash_impl.h(151): warning C4244: 'function': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\hash_impl.h(152): warning C4244: 'function': conversion from 'uint64_t' to 'uint32_t', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\hash_impl.h(261): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecdsa_impl.h(197): warning C4267: '=': conversion from 'size_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecdsa_impl.h(199): warning C4267: '=': conversion from 'size_t' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecdsa_impl.h(202): warning C4267: '=': conversion from 'size_t' to 'unsigned char', possible loss of data
+depend/secp256k1/src/secp256k1.c(177): warning C4127: conditional expression is constant
+depend/secp256k1/src/secp256k1.c(196): warning C4127: conditional expression is constant
+depend/secp256k1/src/secp256k1.c(278): warning C4127: conditional expression is constant
+depend/secp256k1/src/secp256k1.c(291): warning C4127: conditional expression is constant
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modules/recovery/main_impl.h(14): warning C4127: conditional expression is constant
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modules/recovery/main_impl.h(28): warning C4127: conditional expression is constant
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modules/recovery/main_impl.h(35): warning C4244: '=': conversion from 'int' to 'unsigned char', possible loss of data
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\modules/schnorrsig/main_impl.h(48): warning C4295: 'bip340_algo': array is too small to include a terminating null character
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecmult_impl.h(320) : warning C4706: assignment within conditional expression
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecmult_impl.h(324) : warning C4706: assignment within conditional expression
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecmult_impl.h(329) : warning C4706: assignment within conditional expression
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\secp256k1-sys-0.8.1\depend\secp256k1\src\ecmult_impl.h(333) : warning C4706: assignment within conditional expression
+exit code: 0
+cargo:rerun-if-env-changed=AR_x86_64-pc-windows-msvc
+AR_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=AR_x86_64_pc_windows_msvc
+AR_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_AR
+HOST_AR = None
+cargo:rerun-if-env-changed=AR
+AR = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64-pc-windows-msvc
+ARFLAGS_x86_64-pc-windows-msvc = None
+cargo:rerun-if-env-changed=ARFLAGS_x86_64_pc_windows_msvc
+ARFLAGS_x86_64_pc_windows_msvc = None
+cargo:rerun-if-env-changed=HOST_ARFLAGS
+HOST_ARFLAGS = None
+cargo:rerun-if-env-changed=ARFLAGS
+ARFLAGS = None
+running: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\BuildTools\\VC\\Tools\\MSVC\\14.29.30133\\bin\\HostX64\\x64\\lib.exe" "-out:C:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\libsecp256k1.a" "-nologo" "C:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\depend/secp256k1/contrib/lax_der_parsing.o" "C:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\depend/secp256k1/src/precomputed_ecmult_gen.o" "C:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\depend/secp256k1/src/precomputed_ecmult.o" "C:\\Users\\asimj\\Documents\\Polkadot-Seoul\\langchain\\code\\target\\debug\\build\\secp256k1-sys-fffc1e13573cd553\\out\\depend/secp256k1/src/secp256k1.o"
+exit code: 0
+cargo:rustc-link-lib=static=secp256k1
+cargo:rustc-link-search=native=C:\Users\asimj\Documents\Polkadot-Seoul\langchain\code\target\debug\build\secp256k1-sys-fffc1e13573cd553\out
