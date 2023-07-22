@@ -91,26 +91,26 @@ def send_balance(recipient_address, amount):
 # print(contract_info.value)
 
 # Upload WASM code
-code = ContractCode.create_from_contract_files(
-    metadata_file=os.path.join(os.path.dirname(__file__), 'assets',
-                               'erc721.json'),
-    wasm_file=os.path.join(os.path.dirname(__file__), 'assets', 'erc721.wasm'),
-    substrate=substrate_relay)
+# code = ContractCode.create_from_contract_files(
+#     metadata_file=os.path.join(os.path.dirname(__file__), 'assets',
+#                                'erc721.json'),
+#     wasm_file=os.path.join(os.path.dirname(__file__), 'assets', 'erc721.wasm'),
+#     substrate=substrate_relay)
 
 # Deploy contract
-print('Deploy contract...')
-contract = code.deploy(keypair=Keypair.create_from_mnemonic(
-    os.getenv("MNEMONIC")),
-                       constructor="new",
-                       args={},
-                       value=0,
-                       gas_limit={
-                           'ref_time': 25990000000,
-                           'proof_size': 1199000
-                       },
-                       upload_code=True)
+# print('Deploy contract...')
+# contract = code.deploy(keypair=Keypair.create_from_mnemonic(
+#     os.getenv("MNEMONIC")),
+#                        constructor="new",
+#                        args={},
+#                        value=0,
+#                        gas_limit={
+#                            'ref_time': 25990000000,
+#                            'proof_size': 1199000
+#                        },
+#                        upload_code=True)
 
-print(f'✅ Deployed @ {contract.contract_address}')
+# print(f'✅ Deployed @ {contract.contract_address}')
 
 # # Check if contract is on chain
 # contract_info = substrate_relay.query(
@@ -134,12 +134,12 @@ print(f'✅ Deployed @ {contract.contract_address}')
 # print(result)
 
 # # get balance of an account
-# result = contract.read(
-#     Keypair.create_from_mnemonic(os.getenv("MNEMONIC")),
-#     'balance_of',
-#     args={'owner': '5CFj55X2XWR1x6DL5W6WUBFmYYB82r37mAw9ukYXsmGcYatd'})
+result = contract.read(
+    Keypair.create_from_mnemonic(os.getenv("MNEMONIC")),
+    'balance_of',
+    args={'owner': '5CFj55X2XWR1x6DL5W6WUBFmYYB82r37mAw9ukYXsmGcYatd'})
 
-# print(result)
+print(result)
 
 # call balance_of_impl
 # result = contract.read(Keypair.create_from_mnemonic(os.getenv("MNEMONIC")),

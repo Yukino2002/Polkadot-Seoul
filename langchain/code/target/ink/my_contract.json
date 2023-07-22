@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x5b2f7a312bc08ba9add564c653ca52ba9ad6424b29613b7de9f728581ecc978a",
+    "hash": "0x04d471d962d7c1ec20908d0c82eeca8712ec56ee6ae1e277419d60d0dd6135a1",
     "language": "ink! 4.2.1",
     "compiler": "rustc 1.69.0",
     "build_info": {
@@ -129,7 +129,7 @@
               "name": "value2"
             }
           ],
-          "name": "Contract"
+          "name": "MyContract"
         }
       },
       "root_key": "0x00000000"

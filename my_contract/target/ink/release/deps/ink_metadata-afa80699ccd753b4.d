@@ -1,0 +1,11 @@
+C:\Users\asimj\Documents\Polkadot-Seoul\my_contract\target\ink\release\deps\ink_metadata-afa80699ccd753b4.rmeta: C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\lib.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\layout\mod.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\layout\validate.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\specs.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\utils.rs
+
+C:\Users\asimj\Documents\Polkadot-Seoul\my_contract\target\ink\release\deps\libink_metadata-afa80699ccd753b4.rlib: C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\lib.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\layout\mod.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\layout\validate.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\specs.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\utils.rs
+
+C:\Users\asimj\Documents\Polkadot-Seoul\my_contract\target\ink\release\deps\ink_metadata-afa80699ccd753b4.d: C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\lib.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\layout\mod.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\layout\validate.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\specs.rs C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\utils.rs
+
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\lib.rs:
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\layout\mod.rs:
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\layout\validate.rs:
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\specs.rs:
+C:\Users\asimj\.cargo\registry\src\github.com-1ecc6299db9ec823\ink_metadata-4.2.1\src\utils.rs:
