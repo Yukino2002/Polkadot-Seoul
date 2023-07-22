@@ -40,13 +40,13 @@ def scrape_pages_from_file(input_file, output_file):
 
     for url in urls:
         url = url.strip()
-        scrape_page('https://wiki.polkadot.network' + url, output_file)
+        scrape_page('https://spec.polkadot.network' + url, output_file)
         print(f'Scraped URL: {url} -> Appended to {output_file}')
 
 
 if __name__ == "__main__":
     # Modify these paths accordingly
-    input_file_path = 'urls.txt'
+    input_file_path = 'more_urls.txt'
     output_file_path = 'polkadocs.txt'
 
     scrape_pages_from_file(input_file_path, output_file_path)
