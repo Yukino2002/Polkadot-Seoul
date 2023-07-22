@@ -82,8 +82,8 @@ def send_balance(recipient_address, amount):
         return False
 
 
-print(get_account_balance("5DvyRvNq5jpvjat2qkGhiKjJQdz5cwreJW5yxvLBLRpHnoGo"))
-print(get_account_balance("5Fe4G8vypjGHPkwwBSF1nbnyX6ZKTMMNVQDhaZJ1u6tafcpF"))
+# print(get_account_balance("5DvyRvNq5jpvjat2qkGhiKjJQdz5cwreJW5yxvLBLRpHnoGo"))
+# print(get_account_balance("5Fe4G8vypjGHPkwwBSF1nbnyX6ZKTMMNVQDhaZJ1u6tafcpF"))
 # print(get_account_transfers("5DvyRvNq5jpvjat2qkGhiKjJQdz5cwreJW5yxvLBLRpHnoGo"))
 # print(get_transfer_details("6245445-2"))
 # send_balance("5Fe4G8vypjGHPkwwBSF1nbnyX6ZKTMMNVQDhaZJ1u6tafcpF", 0.01)
@@ -98,22 +98,63 @@ print(get_account_balance("5Fe4G8vypjGHPkwwBSF1nbnyX6ZKTMMNVQDhaZJ1u6tafcpF"))
 # Upload WASM code
 code = ContractCode.create_from_contract_files(
     metadata_file=os.path.join(os.path.dirname(__file__), 'assets',
-                               'my_contract.json'),
-    wasm_file=os.path.join(os.path.dirname(__file__), 'assets',
-                           'my_contract.wasm'),
+                               'erc20.json'),
+    wasm_file=os.path.join(os.path.dirname(__file__), 'assets', 'erc20.wasm'),
     substrate=substrate_relay)
 
-# Deploy contract
-print('Deploy contract...')
-contract = code.deploy(keypair=Keypair.create_from_mnemonic(
-    os.getenv("MNEMONIC")),
-                       constructor="new",
-                       args={'init_value': True},
-                       value=0,
-                       gas_limit={
-                           'ref_time': 2599000,
-                           'proof_size': 119903836479
-                       },
-                       upload_code=True)
+# # Deploy contract
+# print('Deploy contract...')
+# contract = code.deploy(keypair=Keypair.create_from_mnemonic(
+#     os.getenv("MNEMONIC")),
+#                        constructor="new",
+#                        args={'total_supply': 10},
+#                        value=0,
+#                        gas_limit={
+#                            'ref_time': 25990000000,
+#                            'proof_size': 1199000
+#                        },
+#                        upload_code=True)
 
-print(f'✅ Deployed @ {contract.contract_address}')
+# print(f'✅ Deployed @ {contract.contract_address}')
+
+# Check if contract is on chain
+contract_info = substrate_relay.query(
+    "Contracts", "ContractInfoOf",
+    ['ZeKg7HtCRdTvtQP3dMcyjVsdoyQUPQYUzeDZA2C4nhus11W'])
+
+print(contract_info.value)
+
+contract = ContractInstance.create_from_address(
+    contract_address='ZeKg7HtCRdTvtQP3dMcyjVsdoyQUPQYUzeDZA2C4nhus11W',
+    metadata_file=os.path.join(os.path.dirname(__file__), 'assets',
+                               'erc20.json'),
+    substrate=substrate_relay)
+
+print(contract)
+
+result = contract.read(Keypair.create_from_mnemonic(os.getenv("MNEMONIC")),
+                       'total_supply')
+
+# print('Current value of "get":', result.contract_result_data)
+
+print(result)
+
+# gas_predit_result = contract.read(
+#     Keypair.create_from_mnemonic(os.getenv("MNEMONIC")), 'flip')
+
+# print('Executing contract call...')
+# contract_receipt = contract.exec(Keypair.create_from_mnemonic(
+#     os.getenv("MNEMONIC")),
+#                                  'flip',
+#                                  args={},
+#                                  gas_limit=gas_predit_result.gas_required)
+
+# if contract_receipt.is_success:
+#     print(f'Events triggered in contract: {contract_receipt.contract_events}')
+# else:
+#     print(f'Error message: {contract_receipt.error_message}')
+
+# result = contract.read(Keypair.create_from_mnemonic(os.getenv("MNEMONIC")),
+#                        'get')
+
+# print('Current value of "get":', result.contract_result_data)
