@@ -60,7 +60,8 @@
   </ol>
 </details>
 
-
+- Video Demo Link: 
+- Live at: [http://www.sybilai.live](http://www.sybilai.live/)
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
@@ -103,7 +104,7 @@ First, clone this repo using git onto your local machine.
   ```sh
   git clone https://github.com/Yukino2002/Polkadot-Seoul.git
   ```
-The following instructions will help you set up the backend and frontend
+The following instructions will help you set up the backend and frontend.
 
 ### Prerequisites
 
@@ -156,15 +157,21 @@ _In order to setup the backend follow the steps shown below_
   ```
 2. Now navigate to the backend directory
   ```sh
-  cd backend
+  cd backend-flask
   ```
 3. Install python packages
    ```sh
    pip install -r requirements.txt
    ```
+4. Make a `.env` file in the top-level directory and follow the template:
+   ```js
+   API_KEY=
+   OPENAI_API_KEY=
+   ACTIVELOOP_TOKEN=
+   ```
 5. Run the Python server
    ```sh
-   python main.py
+   python3 websockets.py
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -175,7 +182,7 @@ _In order to setup the backend follow the steps shown below_
 ## Demo
 
 - Video Demo Link: 
-- Live at: 
+- Live at: [sybilai.live](http://www.sybilai.live/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
