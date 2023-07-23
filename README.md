@@ -60,7 +60,7 @@
   </ol>
 </details>
 
-- Video Demo Link: 
+- Video Demo Link: [https://youtu.be/x1LPp3mGU3I](https://youtu.be/x1LPp3mGU3I)
 - Live at: [http://www.sybilai.live](http://www.sybilai.live/)
 
  Note: You can use any google account to sign in but if you want a demo account here is a demo google account: 
