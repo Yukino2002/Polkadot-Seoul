@@ -135,7 +135,7 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
         await setDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', Math.random().toString(36).substring(7)), {
           message
         }); 
-
+        setReload((prevReload: any) => !prevReload)
       }
   };
 
