@@ -23,6 +23,7 @@ from langchain.chains import ConversationalRetrievalChain
 import re
 import requests
 import ast
+import subprocess
 from langchain.schema import (AIMessage, HumanMessage, SystemMessage)
 from substrateinterface import SubstrateInterface, Keypair
 from substrateinterface.contracts import ContractCode, ContractInstance
@@ -41,6 +42,12 @@ db = DeepLake(
     read_only=True,
     embedding_function=embeddings,
 )
+
+retriever = db.as_retriever()
+retriever.search_kwargs["distance_metric"] = "cos"
+retriever.search_kwargs["fetch_k"] = 20
+retriever.search_kwargs["maximal_marginal_relevance"] = True
+retriever.search_kwargs["k"] = 20
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -156,6 +163,136 @@ def transfer_erc20_to_user(contract_address, user_address, value):
                            gas_limit=gas_predit_result.gas_required)
 
     return f"Transaction Hash: {result.extrinsic_hash}"
+
+
+def filter(x):
+    # filter based on source code
+    if "something" in x["text"].data()["value"]:
+        return False
+
+    # filter based on path e.g. extension
+    metadata = x["metadata"].data()["value"]
+    return "only_this" in metadata["source"] or "also_that" in metadata[
+        "source"]
+
+
+def run_command(command):
+    process = subprocess.Popen(command,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
+                               shell=True)
+    output, error = process.communicate()
+
+    if process.returncode != 0:
+        print(f"Error occurred: {error.decode().strip()}")
+    else:
+        print(f"Output: {output.decode().strip()}")
+
+
+def genCompileDeployContract(description: str):
+    '''
+    Generate, compile and deploy a contract to Shibuya Testnet
+    '''
+    questions = [
+        f"""
+    Give me a basic ink contract code, 
+    Description of code = {description}
+    """ + """
+    -- There should be no print statments in the contract return everything.
+    -- enclose the contract content in #startContract# and #endContract#
+    -- follow this basic format when generating the code
+
+    #startContract#
+    #[ink::contract]
+    mod contract_name \{
+
+    }
+    #endContract#
+    """
+    ]
+
+    chat_history = []
+
+    # extrating the contract code from the result
+    result = qa({"question": questions[0], "chat_history": chat_history})
+    chat_history.append((questions[0], result["answer"]))
+
+    pattern = r'#startContract#(.*?)#endContract#'
+    pattern2 = r'```rust(.*?)```'
+    contract_code = re.search(pattern, result["answer"], re.DOTALL)
+    res = ""
+
+    if contract_code:
+        res = contract_code.group(1).strip()
+    else:
+        contract_code = re.search(pattern2, result["answer"], re.DOTALL)
+        if contract_code:
+            res = contract_code.group(1).strip()
+    res = r"""#![cfg_attr(not(feature = "std"), no_std, no_main)]""" + '\n' + res
+    post_process_code = re.sub(r'^\s*use.*\n?', '', res, flags=re.MULTILINE)
+
+    post_process_code = re.sub(r'^\s*struct',
+                               'pub struct',
+                               post_process_code,
+                               flags=re.MULTILINE)
+
+    post_process_code = re.sub(r'^\s*#\s*\[derive\(.*\n?',
+                               '',
+                               post_process_code,
+                               flags=re.MULTILINE)
+
+    print(post_process_code)
+
+    # generating the constructor args
+    new_function_pattern = r'(pub fn new.*?\))'
+    new_function_match = re.search(new_function_pattern, post_process_code,
+                                   re.DOTALL)
+
+    if new_function_match:
+        res = new_function_match.group(0)
+    print(res)
+    chat = ChatOpenAI()
+    messages = [
+        SystemMessage(content=r"""
+        give the argumentsvalues for "pub fn new(value1: i32, value2: i32)" in the form of a dictionary
+        -- Just the dictionary
+        -- No need fore explanation or additional code
+        -- empty dictionary is also fine
+        -- for invalid input empty dictionary will be returned
+        example: 
+        Input: pub fn new(coolVal: i32)
+        Output: {"coolVal": 1}"""),
+        HumanMessage(content=f"{res}")
+    ]
+    constructor_args = ast.literal_eval(chat(messages).content)
+
+    with open('code/lib.rs', 'w') as file:
+        file.write(post_process_code)
+
+    # compiling contract
+    print(run_command("cd code && cargo contract build"))
+
+    # Upload WASM code
+    code = ContractCode.create_from_contract_files(
+        metadata_file=os.path.join(os.getcwd(), 'code/target/ink',
+                                   'my_contract.json'),
+        wasm_file=os.path.join(os.getcwd(), 'code/target/ink',
+                               'my_contract.wasm'),
+        substrate=substrate_relay)
+
+    # Deploy contract
+    print('Deploy contract...')
+    contract = code.deploy(keypair=Keypair.create_from_mnemonic(menemonic),
+                           constructor="new",
+                           args=constructor_args,
+                           value=0,
+                           gas_limit={
+                               'ref_time': 25990000000,
+                               'proof_size': 1199000
+                           },
+                           upload_code=True)
+
+    return contract.contract_address
 
 
 class GetAccountBalanceInput(BaseModel):
@@ -402,12 +539,17 @@ def handle_query(data):
                              agent=AgentType.OPENAI_FUNCTIONS,
                              verbose=True)
 
+    model = ChatOpenAI(
+        model_name="gpt-3.5-turbo-16k")  # 'ada' 'gpt-3.5-turbo' 'gpt-4',
+    qa = ConversationalRetrievalChain.from_llm(model, retriever=retriever)
+
     # check if data is a json
     try:
         data = json.loads(data)
     except:
         return
     print(data)
+
     # check if it open ai key is not null
     if data['openAIKey'] is None or data['openAIKey'] == "":
         print("no open ai key")
