@@ -13,7 +13,7 @@ const Message = ({
   isBotMessage,
   isFlag,
 }: Props) => {
-  console.log(message)
+  // console.log(message)
 
   const handleYesNoClick = (choice: string) => {
     console.log(`User selected: ${choice}`);

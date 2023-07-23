@@ -72,6 +72,7 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
 
       socketIOClient.on('response', (data) => {
           console.log(data);
+          handleData(data);
       });
 
       setSocket(socketIOClient);
@@ -80,6 +81,35 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
           socketIOClient.disconnect();
       };
   }, []);
+
+    const handleData = async (data) => {
+
+        if ('chatId' in data) {
+          // Do something with chatId
+          console.log('Chat ID:', data.chatId);
+          console.log('Session:', data.session);
+          console.log('Prompt:', data.prompt);
+          const createdAt = new Date(data.createdAt);
+
+          const message: Message = {
+            text: data.prompt,
+            createdAt: createdAt,
+            user: {
+              _id: data.session?.user?.email!,
+              name: data.session?.user?.name!,
+              avatar: data.session?.user?.image! || `https://ui-avatars.com/api/?name=John+Doe`,
+            }
+          }
+
+          await setDoc(doc(db, 'users', data.session?.user?.email!, 'chats', data.chatId, 'messages', Math.random().toString(36).substring(7)), {
+            message
+          });
+          setReload((prevReload: any) => !prevReload)
+
+      } else {
+          console.error('Data received without chatId:', data);
+      }
+    };
 
     const sendQuery = async (e: FormEvent<HTMLFormElement>) =>{
       e.preventDefault()
@@ -97,8 +127,7 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
           }
         }
         let openAIKey = localStorage.getItem('openAIKey');
-        let mnenonic = localStorage.getItem('mnenonic');
-        console.log(openAIKey)
+        let mnenonic = localStorage.getItem('mnemonicKey');
         let res = JSON.stringify({
           prompt: input, chatId, session, "openAIKey": openAIKey, "mnenonic": mnenonic
         })
@@ -106,8 +135,7 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
         await setDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', Math.random().toString(36).substring(7)), {
           message
         }); 
-    
-        setReload((prevReload: any) => !prevReload)
+
       }
   };
 
