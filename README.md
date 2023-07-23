@@ -61,8 +61,12 @@
 </details>
 
 - Video Demo Link: 
-- Live at: [http://www.sybilai.live](http://www.sybilai.live/) You can use any google account to sign in but if you want a demo account here is a demo google account: demoforsybilai@gmail.com
-demo@123
+- Live at: [http://www.sybilai.live](http://www.sybilai.live/)
+
+ Note: You can use any google account to sign in but if you want a demo account here is a demo google account: 
+ 
+- username: demoforsybilai@gmail.com
+- password: demo@123
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
