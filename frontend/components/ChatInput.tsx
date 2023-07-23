@@ -6,17 +6,34 @@ import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from "fireba
 import { useSession } from "next-auth/react";
 import { FormEvent, useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 
 type Props = {
   chatId: string,
   setReload: any,
   reload: any
 }
+
+interface User {
+  email?: string;
+  name?: string;
+}
+
+interface Session {
+  user?: User;
+}
+
+interface Data {
+  chatId: string;
+  session?: Session;
+  prompt: string;
+  createdAt: string;
+}
+
 const ChatInput = ({ chatId, setReload, reload }: Props) => {
   const [prompt, setPrompt] = useState("");
   const { data: session } = useSession();
-  const [socket, setSocket] = useState(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -66,9 +83,9 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
 
   useEffect(() => {
     const socketIOClient = io('http://localhost:5000');
-    if (socket) {
-      socket.emit('query', { 'test': 'test' });
-    }
+    // if (socket) {
+    //   socket.emit('query', { 'test': 'test' });
+    // }
 
     socketIOClient.on('response', (data) => {
       console.log(data);
@@ -82,7 +99,8 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
     };
   }, []);
 
-  const handleData = async (data) => {
+    
+  const handleData = async (data:Data) => {
 
     if ('chatId' in data) {
       // Do something with chatId
