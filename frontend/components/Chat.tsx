@@ -21,7 +21,6 @@ const Chat = ({ chatId, reload, setReload }: Props) => {
         const messagesCollection = collection(db, messagesPath);
         const querySnapshot = await getDocs(messagesCollection);
         let messages = querySnapshot.docs.map((doc) => doc.data());
-
         messages.sort((a, b) => {
           return a.message.createdAt.seconds - b.message.createdAt.seconds
         })

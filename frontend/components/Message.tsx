@@ -13,7 +13,7 @@ const Message = ({
   isBotMessage,
   isFlag,
 }: Props) => {
-  console.log(message)
+  // console.log(message)
 
   const handleYesNoClick = (choice: string) => {
     console.log(`User selected: ${choice}`);
@@ -26,7 +26,7 @@ const Message = ({
   return (
     <div className={`py-5 text-white ${isBotMessage ? 'bg-gray-300/10' : ''}`}> {/* add gray background if it's a bot's message */}
       <div className="flex space-x-5 px-10 max-2-2xl mx-auto">
-        <img src={isBotMessage ? botAvatar : message.user.avatar} alt="" className="h-8 w-8" /> {/* use botAvatar if it's a bot's message */}
+        <img src={ message.user.avatar} alt="" className="h-8 w-8" /> {/* use botAvatar if it's a bot's message */}
         <p className="pt-1 text-sm">
           {message.text}
         </p>
