@@ -55,9 +55,8 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#demo">Demo</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -171,13 +170,12 @@ _In order to setup the backend follow the steps shown below_
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-# CONTINUE FROM HERE
+
 <!-- USAGE EXAMPLES -->
-## Usage
+## Demo
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+- Video Demo Link: 
+- Live at: 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -194,15 +192,18 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+- Asim Jawahir - [@AsimJawahir](https://twitter.com/AsimJawahir) - asimjawahir123@gmail.com 
+- Pratik Jallan - pratikjalan11@gmail.com
+- Sai Leela Rahul Pujari - [@therahulpujari](https://twitter.com/therahulpujari) - rahulpujari2919@gmail.com 
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+
+Project Link: [https://github.com/Yukino2002/Polkadot-Seoul](https://github.com/Yukino2002/Polkadot-Seoul)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- ACKNOWLEDGMENTS -->
+<!-- ACKNOWLEDGMENTS
 ## Acknowledgments
 
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
@@ -217,7 +218,7 @@ Use this space to list resources you find helpful and would like to give credit 
 * [React Icons](https://react-icons.github.io/react-icons/search)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
+ -->
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
