@@ -68,12 +68,14 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Sybil.ai, developed by Team GamerBroz, is a chatbot interface designed to offer seamless interaction with the Polkadot blockchain. By leveraging cutting-edge technologies and smart integrations, it simplifies the complexities of blockchain transactions and contract management, making it accessible to both technical and non-technical users alike. The intuitive interface allows users to send and query balances, access transfer details, compile, deploy, and execute ink contracts, reference Polkadot/Substrate documentation, and interact with on-chain contracts, including ERC20 and NFT functions. 
+Sybil.ai, developed by Team GamerBroz, is a chatbot interface designed to offer seamless interaction with the Polkadot blockchain. By leveraging cutting-edge technologies and smart integrations, it simplifies the complexities of blockchain transactions and contract management, making it accessible to both technical and non-technical users alike.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+Current chatbot features:
+* Send and query balances
+* Access transfer details
+* Compile, deploy, and execute ink! contracts
+* Reference Polkadot/Substrate documentation
+* Interact with on-chain contracts including ERC20 and NFT functions. 
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -100,7 +102,7 @@ Here's why:
 First, clone this repo using git onto your local machine. 
 * git
   ```sh
-  
+  git clone https://github.com/Yukino2002/Polkadot-Seoul.git
   ```
 The following instructions will help you set up the backend and frontend
 
@@ -119,26 +121,57 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+_First, let's set up the frontend for the project_
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
+1. Go to the Polkadot-Seoul directory after cloning
+  ```sh
+  cd Polkadot-Seoul
+  ```
+2. Now navigate to the frontend directory
+  ```sh
+  cd frontend
+  ```
 3. Install NPM packages
    ```sh
-   npm install
+   npm i
    ```
-4. Enter your API in `config.js`
+4. Make a `.env` file in the top-level directory and follow the template:
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   GOOGLE_ID=
+   GOOGLE_SECRET=
+   NEXTAUTH_URL=http://localhost:3000/
+   NEXTAUTH_SECRET=SuperSecret
+   FIREBASE_SERVICE_ACCOUNT_KEY=
+   ```
+5. Run the development server
+   ```sh
+   npm run dev
+   ```
+6. Now you can run the frontend on http://localhost:3000/
+
+_In order to setup the backend follow the steps shown below_
+
+1. Come back to the Polkadot-Seoul directory if you are not already in it
+  ```sh
+  cd ..
+  ```
+2. Now navigate to the backend directory
+  ```sh
+  cd backend
+  ```
+3. Install python packages
+   ```sh
+   pip install -r requirements.txt
+   ```
+5. Run the Python server
+   ```sh
+   python main.py
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
+# CONTINUE FROM HERE
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -147,42 +180,6 @@ Use this space to show useful examples of how a project can be used. Additional 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- LICENSE -->
@@ -225,8 +222,8 @@ Use this space to list resources you find helpful and would like to give credit 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[contributors-shield]: https://img.shields.io/github/contributors/Yukino2002/Polkadot-Seoul.svg?style=for-the-badge
+[contributors-url]: https://github.com/Yukino2002/Polkadot-Seoul/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
 [forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
 [stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
