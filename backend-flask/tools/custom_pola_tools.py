@@ -12,7 +12,7 @@ from substrateinterface.exceptions import SubstrateRequestException
 import os
 from langchain.vectorstores import DeepLake
 from langchain.embeddings.openai import OpenAIEmbeddings
-
+from dotenv import load_dotenv
 
 
 substrate_relay = SubstrateInterface(url="wss://shibuya-rpc.dwellir.com")
@@ -28,6 +28,13 @@ def format_balance(amount: int):
         ".15g")
     return f"{amount} {substrate_relay.properties.get('tokenSymbol', 'UNIT')}"
 
+def get_account_transfers(account_address):
+    url = base_url + "/api/scan/transfers"
+    headers = {"Content-Type": "application/json", "X-API-Key": api_key}
+    payload = {"address": account_address, "row": 100}
+
+    response = requests.post(url, headers=headers, json=payload)
+    return response.json()
 
 def get_account_balance(account_address):
     result = substrate_relay.query("System", "Account", [account_address])
@@ -48,9 +55,11 @@ def send_balance(recipient_address, amount):
                                         call_function='transfer',
                                         call_params={
                                             'dest': recipient_address,
-                                            'value': amount * 10**15
+                                            'value': amount * 10**17
                                         })
-
+    load_dotenv()
+    mnemonic = os.getenv("MNEMONIC")
+    print(mnemonic)
     extrinsic = substrate_relay.create_signed_extrinsic(
         call=call,
         keypair=Keypair.create_from_mnemonic(mnemonic),
@@ -89,6 +98,8 @@ def get_transfer_details(extrinsic_index):
 
 
 def get_erc20_total_supply(contract_address):
+    load_dotenv()
+    mnemonic = os.getenv("MNEMONIC")
     contract = ContractInstance.create_from_address(
         contract_address=contract_address,
         metadata_file=os.path.join(os.getcwd(), '../assets', 'erc20.json'),
@@ -145,124 +156,6 @@ def filter(x):
         "source"]
 
 
-def run_command(command):
-    process = subprocess.Popen(command,
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               shell=True)
-    output, error = process.communicate()
-
-    if process.returncode != 0:
-        print(f"Error occurred: {error.decode().strip()}")
-    else:
-        print(f"Output: {output.decode().strip()}")
-
-
-def genCompileDeployContract(description: str):
-    '''
-    Generate, compile and deploy a contract to Shibuya Testnet
-    '''
-    questions = [
-        f"""
-    Give me a basic ink contract code, 
-    Description of code = {description}
-    """ + """
-    -- There should be no print statments in the contract return everything.
-    -- enclose the contract content in #startContract# and #endContract#
-    -- follow this basic format when generating the code
-
-    #startContract#
-    #[ink::contract]
-    mod contract_name \{
-
-    }
-    #endContract#
-    """
-    ]
-
-    chat_history = []
-
-    # extrating the contract code from the result
-    result = qa({"question": questions[0], "chat_history": chat_history})
-    chat_history.append((questions[0], result["answer"]))
-
-    pattern = r'#startContract#(.*?)#endContract#'
-    pattern2 = r'```rust(.*?)```'
-    contract_code = re.search(pattern, result["answer"], re.DOTALL)
-    res = ""
-
-    if contract_code:
-        res = contract_code.group(1).strip()
-    else:
-        contract_code = re.search(pattern2, result["answer"], re.DOTALL)
-        if contract_code:
-            res = contract_code.group(1).strip()
-    res = r"""#![cfg_attr(not(feature = "std"), no_std, no_main)]""" + '\n' + res
-    post_process_code = re.sub(r'^\s*use.*\n?', '', res, flags=re.MULTILINE)
-
-    post_process_code = re.sub(r'^\s*struct',
-                               'pub struct',
-                               post_process_code,
-                               flags=re.MULTILINE)
-
-    post_process_code = re.sub(r'^\s*#\s*\[derive\(.*\n?',
-                               '',
-                               post_process_code,
-                               flags=re.MULTILINE)
-
-    print(post_process_code)
-
-    # generating the constructor args
-    new_function_pattern = r'(pub fn new.*?\))'
-    new_function_match = re.search(new_function_pattern, post_process_code,
-                                   re.DOTALL)
-
-    if new_function_match:
-        res = new_function_match.group(0)
-    print(res)
-    chat = ChatOpenAI()
-    messages = [
-        SystemMessage(content=r"""
-        give the argumentsvalues for "pub fn new(value1: i32, value2: i32)" in the form of a dictionary
-        -- Just the dictionary
-        -- No need fore explanation or additional code
-        -- empty dictionary is also fine
-        -- for invalid input empty dictionary will be returned
-        example: 
-        Input: pub fn new(coolVal: i32)
-        Output: {"coolVal": 1}"""),
-        HumanMessage(content=f"{res}")
-    ]
-    constructor_args = ast.literal_eval(chat(messages).content)
-
-    with open('code/lib.rs', 'w') as file:
-        file.write(post_process_code)
-
-    # compiling contract
-    print(run_command("cd code && cargo contract build"))
-
-    # Upload WASM code
-    code = ContractCode.create_from_contract_files(
-        metadata_file=os.path.join(os.getcwd(), 'code/target/ink',
-                                   'my_contract.json'),
-        wasm_file=os.path.join(os.getcwd(), 'code/target/ink',
-                               'my_contract.wasm'),
-        substrate=substrate_relay)
-
-    # Deploy contract
-    print('Deploy contract...')
-    contract = code.deploy(keypair=Keypair.create_from_mnemonic(menemonic),
-                           constructor="new",
-                           args=constructor_args,
-                           value=0,
-                           gas_limit={
-                               'ref_time': 25990000000,
-                               'proof_size': 1199000
-                           },
-                           upload_code=True)
-
-    return contract.contract_address
-
 
 class GetAccountBalanceInput(BaseModel):
     """Inputs for get_account_balance"""
@@ -283,36 +176,6 @@ class GetAccountBalanceTool(BaseTool):
     def _run(self, account_address: str):
         account_balance = get_account_balance(account_address)
         return account_balance
-
-    def _arun(self, account_address: str):
-        raise NotImplementedError(
-            "get_current_stock_price does not support async")
-
-
-class GenerateInkPolkadotContractInput(BaseModel):
-    """Inputs for generate_ink_polkadot_contract"""
-
-    contract_description: str = Field(
-        description=
-        "A description in simple english of what you would like the contract to do"
-    )
-
-
-class GenerateInkPolkadotContractTool(BaseTool):
-    name = "generate_ink_polkadot_contract"
-    description = """
-        Useful when you want to generate a polkadot contract in ink or just an ink contract.
-        The contract description is a description of what you would like the contract to do.
-        
-        This also deploys the code to Shibuya Testnet.
-
-        returns the contract address
-        """
-    args_schema: Type[BaseModel] = GenerateInkPolkadotContractInput
-
-    def _run(self, contract_description: str):
-        address = genCompileDeployContract(contract_description)
-        return address
 
     def _arun(self, account_address: str):
         raise NotImplementedError(
