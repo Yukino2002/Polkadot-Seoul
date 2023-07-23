@@ -66,7 +66,8 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Product Name Screen Shot](https://github.com/Yukino2002/Polkadot-Seoul/assets/66853318/57317f4a-4350-42ce-8800-018260cb1512)
+
 
 Sybil.ai, developed by Team GamerBroz, is a chatbot interface designed to offer seamless interaction with the Polkadot blockchain. By leveraging cutting-edge technologies and smart integrations, it simplifies the complexities of blockchain transactions and contract management, making it accessible to both technical and non-technical users alike.
 
@@ -75,7 +76,7 @@ Current chatbot features:
 * Access transfer details
 * Compile, deploy, and execute ink! contracts
 * Reference Polkadot/Substrate documentation
-* Interact with on-chain contracts including ERC20 and NFT functions. 
+* Interact with on-chain contracts, including ERC20 and NFT functions. 
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
