@@ -55,7 +55,7 @@ def send_balance(recipient_address, amount):
                                         call_function='transfer',
                                         call_params={
                                             'dest': recipient_address,
-                                            'value': amount * 10**17
+                                            'value': amount * 10**18
                                         })
     load_dotenv()
     mnemonic = os.getenv("MNEMONIC")
