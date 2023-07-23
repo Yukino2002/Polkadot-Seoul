@@ -31,9 +31,16 @@ from substrateinterface.exceptions import SubstrateRequestException
 substrate_relay = SubstrateInterface(url="wss://shibuya-rpc.dwellir.com")
 base_url = "https://shibuya.api.subscan.io"
 
-menemonic = ''
+mnemonic = ''
 openai = ''
 api_key = os.getenv("API_KEY")
+
+embeddings = OpenAIEmbeddings()
+db = DeepLake(
+    dataset_path=f"hub://commanderastern/polka-code-3",
+    read_only=True,
+    embedding_function=embeddings,
+)
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
@@ -70,7 +77,7 @@ def send_balance(recipient_address, amount):
 
     extrinsic = substrate_relay.create_signed_extrinsic(
         call=call,
-        keypair=Keypair.create_from_mnemonic(menemonic),
+        keypair=Keypair.create_from_mnemonic(mnemonic),
         era={'period': 64})
 
     try:
@@ -110,7 +117,7 @@ def get_erc20_total_supply(contract_address):
         contract_address=contract_address,
         metadata_file=os.path.join(os.getcwd(), '../assets', 'erc20.json'),
         substrate=substrate_relay)
-    result = contract.read(Keypair.create_from_mnemonic(menemonic),
+    result = contract.read(Keypair.create_from_mnemonic(mnemonic),
                            'total_supply')
 
     return str(result['result'])
@@ -121,7 +128,7 @@ def get_erc20_of_user(contract_address, user_address):
         contract_address=contract_address,
         metadata_file=os.path.join(os.getcwd(), '../assets', 'erc20.json'),
         substrate=substrate_relay)
-    result = contract.read(Keypair.create_from_mnemonic(menemonic),
+    result = contract.read(Keypair.create_from_mnemonic(mnemonic),
                            'balance_of',
                            args={'owner': user_address})
     return str(result['result'])
@@ -132,17 +139,15 @@ def transfer_erc20_to_user(contract_address, user_address, value):
         contract_address=contract_address,
         metadata_file=os.path.join(os.getcwd(), '../assets', 'erc20.json'),
         substrate=substrate_relay)
-
     gas_predit_result = contract.read(
-        Keypair.create_from_mnemonic(menemonic),
+        Keypair.create_from_mnemonic(mnemonic),
         'transfer',
         args={
             'to': user_address,
             'value': value
         },
     )
-
-    result = contract.exec(Keypair.create_from_mnemonic(menemonic),
+    result = contract.exec(Keypair.create_from_mnemonic(mnemonic),
                            'transfer',
                            args={
                                'to': user_address,
@@ -151,6 +156,216 @@ def transfer_erc20_to_user(contract_address, user_address, value):
                            gas_limit=gas_predit_result.gas_required)
 
     return f"Transaction Hash: {result.extrinsic_hash}"
+
+
+class GetAccountBalanceInput(BaseModel):
+    """Inputs for get_account_balance"""
+
+    account_address: str = Field(
+        description="the address of the account to get the balance of")
+
+
+class GetAccountBalanceTool(BaseTool):
+    name = "get_account_balance"
+    description = """
+        Useful when you want to get the balance of an polkadot account.
+        The account address is the address of the account you want to get the balance of.
+        The address format is ss58 encoded.
+        """
+    args_schema: Type[BaseModel] = GetAccountBalanceInput
+
+    def _run(self, account_address: str):
+        account_balance = get_account_balance(account_address)
+        return account_balance
+
+    def _arun(self, account_address: str):
+        raise NotImplementedError(
+            "get_current_stock_price does not support async")
+
+
+class GenerateInkPolkadotContractInput(BaseModel):
+    """Inputs for generate_ink_polkadot_contract"""
+
+    contract_description: str = Field(
+        description=
+        "A description in simple english of what you would like the contract to do"
+    )
+
+
+class GenerateInkPolkadotContractTool(BaseTool):
+    name = "generate_ink_polkadot_contract"
+    description = """
+        Useful when you want to generate a polkadot contract in ink or just an ink contract.
+        The contract description is a description of what you would like the contract to do.
+        
+        This also deploys the code to Shibuya Testnet.
+
+        returns the contract address
+        """
+    args_schema: Type[BaseModel] = GenerateInkPolkadotContractInput
+
+    def _run(self, contract_description: str):
+        address = genCompileDeployContract(contract_description)
+        return address
+
+    def _arun(self, account_address: str):
+        raise NotImplementedError(
+            "get_current_stock_price does not support async")
+
+
+class SendSubstrateBalanceInput(BaseModel):
+    """Inputs for send_substrate_balance"""
+
+    recipient_address: str = Field(
+        description="the address of the account to send the balance to")
+    amount: float = Field(description="the amount to send.")
+
+
+class SendSubstrateBalanceTool(BaseTool):
+    name = "send_substrate_balance"
+    description = """
+        Useful when you want to send a balance to a polkadot account.
+        If balance is not specified send 0.001
+        We will be sending Shibuya Testnet tokens/SBY.
+        returns the extrinsic hash if successful
+        """
+    args_schema: Type[BaseModel] = SendSubstrateBalanceInput
+
+    def _run(self, recipient_address: str, amount: int):
+        res = send_balance(recipient_address, amount)
+        return res.extrinsic_hash
+
+    def _arun(self, account_address: str):
+        raise NotImplementedError(
+            "get_current_stock_price does not support async")
+
+
+class ListAllTransactionsInput(BaseModel):
+    """Inputs for list_all_transactions"""
+
+    account_address: str = Field(
+        description="the address of the account to get the transactions of")
+
+
+class ListAllTransactionsTool(BaseTool):
+    name = "list_all_transactions"
+    description = """
+        Useful when you want to list all transactions of a polkadot account.
+        Lists the last first 3 and last 3 transactions.
+        """
+    args_schema: Type[BaseModel] = ListAllTransactionsInput
+
+    def _run(self, account_address: str):
+        res = get_account_transfers(account_address)
+        return res
+
+    def _arun(self, account_address: str):
+        raise NotImplementedError(
+            "list_all_transactions does not support async")
+
+
+class GetTransferDetailsInput(BaseModel):
+    """Inputs for get_transfer_details"""
+
+    extrinsic_hash: str = Field(
+        description=
+        "the extrinsic hash of the transaction to get the details of, starts with 0x"
+    )
+
+
+class GetTransferDetailsTool(BaseTool):
+    name = "get_transfer_details"
+    description = """
+        Useful when you want to get the details of a transaction.
+        returns code, if successful, block time and data if it exists.
+        """
+    args_schema: Type[BaseModel] = GetTransferDetailsInput
+
+    def _run(self, extrinsic_hash: str):
+        res = get_transfer_details(extrinsic_hash)
+        return ["successfully retreived data. Data:", res]
+
+    def _arun(self, account_address: str):
+        raise NotImplementedError(
+            "get_transfer_details does not support async")
+
+
+class GetERC20TotalSupplyInput(BaseModel):
+    """Inputs for get_erc20_total_supply"""
+
+    contract_address: str = Field(
+        description="the address of the contract to get the total supply of")
+
+
+class GetERC20TotalSupplyTool(BaseTool):
+    name = "get_erc20_total_supply"
+    description = """
+        Useful when you want to get the total supply of an ERC20 token.
+        The address of the contract should be given
+        returns the total supply of the ERC20 token.
+        """
+    args_schema: Type[BaseModel] = GetERC20TotalSupplyInput
+
+    def _run(self, contract_address: str):
+        res = get_erc20_total_supply(contract_address)
+        return res
+
+    def _arun(self, account_address: str):
+        raise NotImplementedError(
+            "get_erc20_total_supply does not support async")
+
+
+class GetERC20OfUserInput(BaseModel):
+    """Inputs for get_erc20_of_user"""
+
+    contract_address: str = Field(
+        description="the address of the contract to get the balance of")
+    user_address: str = Field(
+        description="the address of the user to get the balance of")
+
+
+class GetERC20OfUserTool(BaseTool):
+    name = "get_erc20_of_user"
+    description = """
+        Useful when you want to get the balance of an ERC20 token of a user when given user address.
+        The address of the contract should be given
+        returns the balance of the ERC20 token of the user.
+        """
+    args_schema: Type[BaseModel] = GetERC20OfUserInput
+
+    def _run(self, contract_address: str, user_address: str):
+        res = get_erc20_of_user(contract_address, user_address)
+        return res
+
+    def _arun(self, account_address: str):
+        raise NotImplementedError("get_erc20_of_user does not support async")
+
+
+class TransferERC20ToUserInput(BaseModel):
+    """Inputs for transfer_erc20"""
+
+    contract_address: str = Field(
+        description="the address of the contract to transfer the balance of")
+    user_address: str = Field(
+        description="the address of the user to transfer the balance of")
+    amount: int = Field(description="the amount to transfer")
+
+
+class TransferERC20ToUserTool(BaseTool):
+    name = "transfer_erc20_to_user"
+    description = """
+        Useful when you want to transfer an ERC20 token to a user for a given amount.
+        The address of the contract and amount should be given
+        returns the transaction hash.
+        """
+    args_schema: Type[BaseModel] = TransferERC20ToUserInput
+
+    def _run(self, contract_address: str, user_address: str, amount: int):
+        res = transfer_erc20_to_user(contract_address, user_address, amount)
+        return res
+
+    def _arun(self, account_address: str):
+        raise NotImplementedError("transfer_erc20 does not support async")
 
 
 @socketio.on('query')
@@ -170,6 +385,23 @@ def handle_query(data):
 
 @socketio.on('print')
 def handle_query(data):
+    # reinitialize agent everytime a query is made
+    llm = ChatOpenAI(model="gpt-3.5-turbo-0613", temperature=0)
+    tools = [
+        GetAccountBalanceTool(),
+        GenerateInkPolkadotContractTool(),
+        SendSubstrateBalanceTool(),
+        ListAllTransactionsTool(),
+        GetTransferDetailsTool(),
+        GetERC20TotalSupplyTool(),
+        GetERC20OfUserTool(),
+        TransferERC20ToUserTool()
+    ]
+    agent = initialize_agent(tools,
+                             llm,
+                             agent=AgentType.OPENAI_FUNCTIONS,
+                             verbose=True)
+
     # check if data is a json
     try:
         data = json.loads(data)
@@ -186,7 +418,7 @@ def handle_query(data):
 
     payload = dict()
     payload['prompt'] = data['prompt'] + "nisoo"
-    menemonic = data['mnenonic']
+    mnemonic = data['mnenonic']
     openai = data['openAIKey']
     session = {
         'user': {
