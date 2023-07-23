@@ -4,21 +4,21 @@ mod contract_name {
 
     #[ink(storage)]
     pub struct ContractName {
-        value1: Lazy<i32>,
-        value2: Lazy<i32>,
+        value1: Value<u32>,
+        value2: Value<u32>,
     }
 
     impl ContractName {
         #[ink(constructor)]
         pub fn new() -> Self {
             Self {
-                value1: Lazy::new(8),
-                value2: Lazy::new(9),
+                value1: Value::new(3),
+                value2: Value::new(7),
             }
         }
 
         #[ink(message)]
-        pub fn get_sum(&self) -> i32 {
+        pub fn get_sum(&self) -> u32 {
             *self.value1 + *self.value2
         }
     }

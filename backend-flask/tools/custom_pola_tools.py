@@ -94,12 +94,33 @@ def get_transfer_details(extrinsic_index):
     payload = {"extrinsic_index": extrinsic_index}
 
     response = requests.post(url, headers=headers, json=payload)
-    return response.json()
+    data =  response.json()
+    res_list = []
+
+    # Get all the transfers
+    transfers = data['data']['transfers']
+
+    # Get the first 3 and last 3 transfers
+    selected_transfers = transfers[:3] + transfers[-3:]
+    
+    for transfer in selected_transfers:
+
+        # Get timestamp and amount
+        timestamp = transfer['block_timestamp']
+        amount = transfer['amount']
+
+        # Get addresses and truncate
+        from_address = transfer['from'][:5] + '...' + transfer['from'][-5:]
+        to_address = transfer['to'][:5] + '...' + transfer['to'][-5:]
+
+        res_list.append((f"Timestamp: {timestamp}, Amount: {amount}, From: {from_address}, To: {to_address}"))
+    return res_list
 
 
 def get_erc20_total_supply(contract_address):
     load_dotenv()
     mnemonic = os.getenv("MNEMONIC")
+    print(mnemonic)
     contract = ContractInstance.create_from_address(
         contract_address=contract_address,
         metadata_file=os.path.join(os.getcwd(), '../assets', 'erc20.json'),
@@ -111,6 +132,9 @@ def get_erc20_total_supply(contract_address):
 
 
 def get_erc20_of_user(contract_address, user_address):
+    load_dotenv()
+    mnemonic = os.getenv("MNEMONIC")
+    print(mnemonic)
     contract = ContractInstance.create_from_address(
         contract_address=contract_address,
         metadata_file=os.path.join(os.getcwd(), '../assets', 'erc20.json'),
@@ -122,6 +146,9 @@ def get_erc20_of_user(contract_address, user_address):
 
 
 def transfer_erc20_to_user(contract_address, user_address, value):
+    load_dotenv()
+    mnemonic = os.getenv("MNEMONIC")
+    print(mnemonic)
     contract = ContractInstance.create_from_address(
         contract_address=contract_address,
         metadata_file=os.path.join(os.getcwd(), '../assets', 'erc20.json'),
