@@ -1,7 +1,0 @@
-fastapi
-uvicorn
-substrate-interface
-python-dotenv
-beautifulsoup4
-openai
-firebase-admin

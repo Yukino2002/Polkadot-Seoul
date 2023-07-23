@@ -3,3 +3,7 @@ Flask-SocketIO
 langchain
 pytz
 deeplake
+substrate-interface
+python-dotenv
+openai
+firebase-admin

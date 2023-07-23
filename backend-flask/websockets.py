@@ -28,17 +28,15 @@ from langchain.schema import (AIMessage, HumanMessage, SystemMessage)
 from substrateinterface import SubstrateInterface, Keypair
 from substrateinterface.contracts import ContractCode, ContractInstance
 from substrateinterface.exceptions import SubstrateRequestException
-from tools.custom_pola_tools import (GetAccountBalanceTool,
-                                        GenerateInkPolkadotContractTool,
-                                        SendSubstrateBalanceTool,
-                                        ListAllTransactionsTool,
-                                        GetTransferDetailsTool,
-                                        GetERC20TotalSupplyTool,
-                                        GetERC20OfUserTool,
-                                        TransferERC20ToUserTool)
 from dotenv import load_dotenv
 
 load_dotenv()
+
+from tools.custom_pola_tools import (
+    GetAccountBalanceTool, GenerateInkPolkadotContractTool,
+    SendSubstrateBalanceTool, ListAllTransactionsTool, GetTransferDetailsTool,
+    GetERC20TotalSupplyTool, GetERC20OfUserTool, TransferERC20ToUserTool)
+
 embeddings = OpenAIEmbeddings()
 db = DeepLake(
     dataset_path=f"hub://commanderastern/polka-code-3",
@@ -54,6 +52,7 @@ retriever.search_kwargs["k"] = 20
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*")
+
 
 @socketio.on('query')
 def handle_query(data):
@@ -122,7 +121,7 @@ def handle_query(data):
     payload['session'] = session
     payload['chatId'] = data['chatId']
 
-    payload['prompt'] =agent.run(data['prompt'])
+    payload['prompt'] = agent.run(data['prompt'])
 
     now_utc = datetime.now(pytz.timezone('UTC')) + timedelta(seconds=2)
     payload['createdAt'] = now_utc.isoformat()

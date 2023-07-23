@@ -64,79 +64,79 @@ const ChatInput = ({ chatId, setReload, reload }: Props) => {
     })
   };
 
-    useEffect(() => {
-      const socketIOClient = io('http://localhost:5000');
-      if(socket) {
-        socket.emit('query', {'test': 'test'});
-      }
+  useEffect(() => {
+    const socketIOClient = io('http://localhost:5000');
+    if (socket) {
+      socket.emit('query', { 'test': 'test' });
+    }
 
-      socketIOClient.on('response', (data) => {
-          console.log(data);
-          handleData(data);
-      });
+    socketIOClient.on('response', (data) => {
+      console.log(data);
+      handleData(data);
+    });
 
-      setSocket(socketIOClient);
+    setSocket(socketIOClient);
 
-      return () => {
-          socketIOClient.disconnect();
-      };
+    return () => {
+      socketIOClient.disconnect();
+    };
   }, []);
 
-    const handleData = async (data) => {
+  const handleData = async (data) => {
 
-        if ('chatId' in data) {
-          // Do something with chatId
-          console.log('Chat ID:', data.chatId);
-          console.log('Session:', data.session);
-          console.log('Prompt:', data.prompt);
-          const createdAt = new Date(data.createdAt);
+    if ('chatId' in data) {
+      // Do something with chatId
+      console.log('Chat ID:', data.chatId);
+      console.log('Session:', data.session);
+      console.log('Prompt:', data.prompt);
+      const createdAt = new Date(data.createdAt);
 
-          const message: Message = {
-            text: data.prompt,
-            createdAt: createdAt,
-            user: {
-              _id: data.session?.user?.email!,
-              name: data.session?.user?.name!,
-              avatar: data.session?.user?.image! || `https://ui-avatars.com/api/?name=John+Doe`,
-            }
-          }
-
-          await setDoc(doc(db, 'users', data.session?.user?.email!, 'chats', data.chatId, 'messages', Math.random().toString(36).substring(7)), {
-            message
-          });
-          setReload((prevReload: any) => !prevReload)
-
-      } else {
-          console.error('Data received without chatId:', data);
-      }
-    };
-
-    const sendQuery = async (e: FormEvent<HTMLFormElement>) =>{
-      e.preventDefault()
-      if(socket) {
-        if (!prompt) return;
-        const input = prompt.trim();
-        setPrompt("");
-        const message: Message = {
-          text: input,
-          createdAt: await serverTimestamp(),
-          user: {
-            _id: session?.user?.email!,
-            name: session?.user?.name!,
-            avatar: session?.user?.image! || `https://ui-avatars.com/api/?name=John+Doe`,
-          }
+      const message: Message = {
+        text: data.prompt,
+        createdAt: createdAt,
+        user: {
+          _id: data.session?.user?.email!,
+          name: data.session?.user?.name!,
+          avatar: 'https://i.imgur.com/usI3OTw.png',
         }
-        let openAIKey = localStorage.getItem('openAIKey');
-        let mnenonic = localStorage.getItem('mnemonicKey');
-        let res = JSON.stringify({
-          prompt: input, chatId, session, "openAIKey": openAIKey, "mnenonic": mnenonic
-        })
-        socket.emit('print', res);
-        await setDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', Math.random().toString(36).substring(7)), {
-          message
-        }); 
-        setReload((prevReload: any) => !prevReload)
       }
+
+      await setDoc(doc(db, 'users', data.session?.user?.email!, 'chats', data.chatId, 'messages', Math.random().toString(36).substring(7)), {
+        message
+      });
+      setReload((prevReload: any) => !prevReload)
+
+    } else {
+      console.error('Data received without chatId:', data);
+    }
+  };
+
+  const sendQuery = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (socket) {
+      if (!prompt) return;
+      const input = prompt.trim();
+      setPrompt("");
+      const message: Message = {
+        text: input,
+        createdAt: await serverTimestamp(),
+        user: {
+          _id: session?.user?.email!,
+          name: session?.user?.name!,
+          avatar: session?.user?.image! || `https://ui-avatars.com/api/?name=John+Doe`,
+        }
+      }
+      let openAIKey = localStorage.getItem('openAIKey');
+      let mnenonic = localStorage.getItem('mnemonicKey');
+      let res = JSON.stringify({
+        prompt: input, chatId, session, "openAIKey": openAIKey, "mnenonic": mnenonic
+      })
+      socket.emit('print', res);
+      await setDoc(doc(db, 'users', session?.user?.email!, 'chats', chatId, 'messages', Math.random().toString(36).substring(7)), {
+        message
+      });
+      setReload((prevReload: any) => !prevReload)
+    }
   };
 
   return (

@@ -42,7 +42,7 @@ const Chat = ({ chatId, reload, setReload }: Props) => {
         </p>
       )}
       {messagesData.map((message: any, index: number) => (
-        <Message key={message.id} message={message.message} isBotMessage={index % 2 !== 0} />
+        <Message key={message.id} message={message.message} isBotMessage={index % 2 !== 0} isFlag={false} />
       ))}
     </div>
   )
